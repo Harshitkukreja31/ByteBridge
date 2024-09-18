@@ -17,6 +17,74 @@
         <p class="hero-author">- Abraham Lincoln</p>
     </div>
     
+    
+    <div class="container">
+        <div class="controls">
+            <div class="dropdown">
+                <select id="company-select" class="select-dropdown">
+                    <option value="">Select a Company</option>
+                </select>
+                <!-- <i data-feather="chevron-down" class="dropdown-icon"></i> -->
+            </div>
+            <div class="dropdown">
+                <select id="duration-select" class="select-dropdown">
+                    <option value="">Select Duration</option>
+                </select>
+                <i data-feather="chevron-down" class="dropdown-icon"></i>
+            </div>
+            <div class="dropdown">
+                <select id="sort-select" class="select-dropdown">
+                    <option value="">Sort By</option>
+                    <option value="difficulty-asc">Difficulty Ascending</option>
+                    <option value="difficulty-desc">Difficulty Descending</option>
+                    <option value="frequency-asc">Frequency Ascending</option>
+                    <option value="frequency-desc">Frequency Descending</option>
+                </select>
+                <i data-feather="chevron-down" class="dropdown-icon"></i>
+            </div>
+            <div class="dropdown">
+                <select id="difficulty-filter" class="select-dropdown">
+                    <option value="">Filter by Difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <i data-feather="chevron-down" class="dropdown-icon"></i>
+            </div>
+            <div class="search-container">
+                <input type="text" id="id-search" class="search-input" placeholder="Search by Question ID...">
+                <button id="search-button" class="btn btn-blue">
+                    <i data-feather="search"></i>
+                    <span>Search</span>
+                </button>
+            </div>
+            
+            <div class="dropdown">
+                <button id="dropdownButton" class="btn btn-pink">
+                    Add <span>+</span>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu">
+                    <ul>
+                        <li onclick="toggleNewEntryForm()">New Entry</li>
+                        <li onclick="showSummary()">Summary</li>
+                    </ul>
+                </div>
+            </div>
+            <button id="clear-button" class="btn btn-red">
+                <i data-feather="x-circle"></i>
+                <span>Clear</span>
+            </button>
+        </div>
+        <div class="company-info">
+            <img id="company-logo" class="company-logo" src="" alt="Company Logo">
+            <span id="current-selection" class="current-selection"></span>
+        </div>
+        
+        <!-- Table Container -->
+        <div id="table-container" class="table-container">
+             <!-- Table will be dynamically generated here -->
+        </div>
+    </div>
     <script src="dashboard.js"></script>
 </body>
 </html>
