@@ -442,3 +442,54 @@ function getUserSpecificStorageKey(key) {
 }
 
 
+function formatDate(date) {
+    const nth = (d) => {
+      if (d > 3 && d < 21) return "th";
+      switch (d % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+  
+    let day = date.getDate();
+    let month = date.toLocaleString("default", { month: "long" });
+    let year = date.getFullYear();
+    let hour = date.getHours() % 12 || 12; // Convert to 12 hour format
+    let minute = date.getMinutes().toString().padStart(2, "0");
+    let ampm = date.getHours() >= 12 ? "PM" : "AM";
+  
+    return `${day}${nth(day)} ${month} ${year}, ${hour}:${minute} ${ampm}`;
+}
+function updateProgressDisplay(checkboxCount, totalRows) {
+  setProgress(checkboxCount, totalRows);
+}
+
+var progDisplay=true;
+function setProgress(answered, total) {
+  const circle = document.querySelector('.progress-ring__circle--fg');
+  const radius = circle.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  const progress = answered / total;
+
+  circle.style.strokeDasharray = `${circumference} ${circumference}`;
+  circle.style.strokeDashoffset = circumference - (progress * circumference);
+
+  document.querySelector('.progress-ring__answered').textContent = answered;
+  document.querySelector('.progress-ring__total').textContent = total;
+  if(progDisplay==true){
+    document.querySelector('.progress-ring').style.display="block";
+  }
+  else{
+    document.querySelector('.progress-ring').style.display="none";
+  }
+  
+}
+
+
+
