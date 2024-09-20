@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="hero-section">
+        <button><a href="../UserProfile/profile.html">User Profile</a></button>
         <h1 class="hero-heading">Practice Your DSA with Company-wise Differentiation</h1>
         <p class="hero-subheading">Sharpen your skills and prepare for success</p>
         <blockquote class="hero-quote">
@@ -16,7 +17,21 @@
         </blockquote>
         <p class="hero-author">- Abraham Lincoln</p>
     </div>
-    
+    <div class="User-progress">
+        <div class="progress-ring">
+            <svg class="progress-ring__svg" width="200" height="200" viewBox="0 0 200 200">
+                <circle class="progress-ring__circle progress-ring__circle--bg" stroke="#eee" stroke-width="15" fill="transparent" r="90" cx="100" cy="100" />
+                <circle class="progress-ring__circle progress-ring__circle--fg" stroke="#00c8ff" stroke-width="15" fill="transparent" r="90" cx="100" cy="100" />
+            </svg>
+            <div class="progress-ring__text">
+                <div class="progress-ring__answered">4</div>
+                <div class="progress-ring__all">All</div>
+                <div class="progress-ring__total">53</div>
+            </div>
+        </div>
+  
+
+    </div>
     
     <div class="container">
         <div class="controls">
@@ -59,7 +74,7 @@
                 </button>
             </div>
             
-            <div class="dropdown">
+            <!-- <div class="dropdown">
                 <button id="dropdownButton" class="btn btn-pink">
                     Add <span>+</span>
                 </button>
@@ -69,7 +84,7 @@
                         <li onclick="showSummary()">Summary</li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
             <button id="clear-button" class="btn btn-red">
                 <i data-feather="x-circle"></i>
                 <span>Clear</span>
