@@ -493,3 +493,61 @@ function setProgress(answered, total) {
 
 
 
+
+
+
+//sort all the rows
+function sortRows(rows, sort, header) {
+  const headerParts = header.split(",");
+  const sortKey = sort.split("-")[0].trim();
+  // Adjust the sort key to match the header case
+  const capitalizedSortKey =
+    sortKey.charAt(0).toUpperCase() + sortKey.slice(1).toLowerCase();
+  const columnIndex = headerParts.indexOf(capitalizedSortKey);
+
+  if (columnIndex === -1) {
+    console.error("Sort key not found in header:", capitalizedSortKey);
+    return rows; // Return unsorted rows to prevent further errors
+  }
+
+  const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
+  const isAscending = sort.includes("asc"); // Determine sorting order
+
+  rows.sort((a, b) => {
+    let rowA = a.split(",");
+    let rowB = b.split(",");
+    let valA = rowA[columnIndex];
+    let valB = rowB[columnIndex];
+
+    if (valA === undefined || valB === undefined) {
+      console.error(
+        "Undefined value found for sort key",
+        capitalizedSortKey,
+        "at index",
+        columnIndex
+      );
+      return 0;
+    }
+
+    valA = valA.trim();
+    valB = valB.trim();
+
+    if (capitalizedSortKey === "Frequency") {
+      valA = parseFloat(valA);
+      valB = parseFloat(valB);
+    } else if (capitalizedSortKey === "Difficulty") {
+      valA = difficultyOrder[valA];
+      valB = difficultyOrder[valB];
+    }
+
+    if (valA < valB) {
+      return isAscending ? -1 : 1; // Adjust return based on sorting order
+    } else if (valA > valB) {
+      return isAscending ? 1 : -1; // Adjust return based on sorting order
+    }
+    return 0;
+  });
+  return rows;
+}
+
+
