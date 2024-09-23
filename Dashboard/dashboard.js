@@ -186,10 +186,12 @@ function displayTable(csvData, sort, difficulty) {
                       const currentDate = formatDate(new Date());
                       dateInput.value = currentDate;
                       localStorage.setItem(getUserSpecificStorageKey(`date-${cells[0]}`), currentDate);
+                      localStorage.setItem(getUserSpecificStorageKey(`company-${cells[0]}`), companySelect.value);
                       checkboxCount++;
                   } else {
                       dateInput.value = "";
                       localStorage.removeItem(getUserSpecificStorageKey(`date-${cells[0]}`));
+                      localStorage.removeItem(getUserSpecificStorageKey(`company-${cells[0]}`));
                       checkboxCount--;
                   }
                   localStorage.setItem(getUserSpecificStorageKey(this.id), this.checked);
@@ -493,7 +495,232 @@ function setProgress(answered, total) {
 
 
 
+//calender:
 
+function createCalendar(year, month) {
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+  ];
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  
+  calendarContainer.innerHTML = `
+
+    
+    <div class="calendar">
+      <div class="calendar-header">
+        <span class="month-year">${monthNames[month]} ${year}</span>
+        <div class="nav-buttons">
+          <button class="prev-month">&lt;</button>
+          <button class="next-month">&gt;</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>S</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody id="calendar-body"></tbody>
+      </table>
+    </div>
+  `;
+
+  
+  const tbody = document.getElementById('calendar-body');
+
+  let date = 1;
+  for (let i = 0; i < 6; i++) {
+    const row = document.createElement('tr');
+    for (let j = 0; j < 7; j++) {
+      const cell = document.createElement('td');
+      if (i === 0 && j < firstDay.getDay()) {
+        row.appendChild(cell);
+      } else if (date > lastDay.getDate()) {
+        break;
+      } else {
+        const count = getQuestionCountForDay(year, month, date);
+        
+        cell.innerHTML = `
+          <div class="date">${date}</div>
+          <div class="count">${count}</div>
+        `;
+        cell.classList.add('day');
+        cell.dataset.count = count;
+        
+        if (date === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+          cell.classList.add('today');
+        }
+        
+        row.appendChild(cell);
+        date++;
+      }
+    }
+    tbody.appendChild(row);
+  }
+
+  // Add event listeners for navigation buttons
+  document.querySelector('.prev-month').addEventListener('click', () => {
+    createCalendar(month === 0 ? year - 1 : year, month === 0 ? 11 : month - 1);
+  });
+  document.querySelector('.next-month').addEventListener('click', () => {
+    createCalendar(month === 11 ? year + 1 : year, month === 11 ? 0 : month + 1);
+  });
+}
+
+// Update the CSS for the calendar
+const style = document.createElement('style');
+style.textContent = `
+ #calendar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.calendar {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 380px;
+  overflow: hidden;
+}
+
+.calendar-header {
+  background-color: hsl(166.1, 58.1%, 57.8%);
+  padding: 20px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-buttons button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.nav-buttons button:hover {
+  color: #2d3748;
+}
+
+.calendar table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+.calendar th, .calendar td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.calendar th {
+  background-color: #f9fafb;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.calendar td {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.calendar td:hover:not(:empty) {
+  background-color: #e2e8f0;
+}
+
+.calendar .date {
+  font-size: 14px;
+  color: black;
+}
+
+.calendar .count {
+  font-size: 10px;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-weight: bold;
+  color: #4a5568;
+}
+
+.day.today {
+  color: white;
+  font-weight: bold;
+}
+
+.day.today:hover {
+  background-color: #2563eb;
+}
+
+.day[data-count="0"] { 
+  background-color: white; 
+}
+
+.day { 
+  background-color: #10b981; 
+  color: white;
+}
+.day.today{
+  background-color: #3b82f6;
+}
+.day:hover {
+  opacity: 0.9;
+  
+`;
+document.head.appendChild(style);
+
+// The rest of your code remains
+
+function getQuestionCountForDay(year, month, day) {
+  const date = new Date(year, month, day);
+  const dateString = formatDate(date).split(',')[0]; // Format date and get only the date part (without time)
+  const currentUser = localStorage.getItem('currentUser');
+  let count = 0;
+  
+  for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      // Ensure that the key belongs to the current user and starts with 'date-'
+      if (key.startsWith(`${currentUser}-date-`)) {
+          const storedDate = localStorage.getItem(key);
+          if (storedDate.startsWith(dateString)) {
+              count++;
+          }
+      }
+  }
+  
+  return count;
+}
+
+
+
+
+
+
+// Initial calendar creation
+createCalendar(new Date().getFullYear(), new Date().getMonth());
 
 
 //sort all the rows
