@@ -74,3 +74,205 @@ function startAnimation() {
 createLineNumbers(19);  // Create line numbers for 16 lines
 startAnimation();  // Start the initial animation
 
+// login-signup
+function openModal() {
+    document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+
+function toggleForm() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+    signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
+}
+
+// Global variable to store the currently logged-in username
+let currentUser = null;
+
+function login() {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+
+    if (users[username] && users[username] === password) {
+        currentUser = username; // Set the logged-in user
+        localStorage.setItem('currentUser', username); // Store current user in localStorage
+        window.location.href = '../Dashboard/dashboard.html'; // Redirect to dashboard
+        closeModal();
+    } else {
+        alert('Invalid username or password');
+    }
+}
+
+function signup() {
+    const username = document.getElementById('signupUsername').value;
+    const password = document.getElementById('signupPassword').value;
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+
+    if (users[username]) {
+        alert('Username already exists');
+    } else {
+        users[username] = password;
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Signup successful! Please login.');
+        toggleForm();
+    }
+}
+
+// Load the logged-in user when the page is loaded
+window.onload = function () {
+    currentUser = localStorage.getItem('currentUser');
+};
+
+
+
+//section : Road Map
+
+const milestones = [
+    {
+        id: 'milestone1',
+        title: 'LANGUAGE',
+        description: 'Choose a Programming Language that suits your purpose',
+        details: 'Consider factors like ease of learning, job market demand, and your specific goals (web development, data science, etc.) when choosing a language.'
+    },
+    {
+        id: 'milestone2',
+        title: 'FUNDAMENTALS',
+        description: 'Learn the fundamental syntaxes and data structures',
+        details: 'Master basic concepts like variables, loops, conditionals, functions, and common data structures (arrays, lists, dictionaries).'
+    },
+    {
+        id: 'milestone3',
+        title: 'PRACTICE',
+        description: 'Practice all kinds of algorithms on different platforms',
+        details: 'Solve problems on platforms like LeetCode, HackerRank, or CodeWars. Focus on implementing various algorithms and improving your problem-solving skills.'
+    },
+    {
+        id: 'milestone4',
+        title: 'COMPETE',
+        description: 'Apply logical skills and advance by challenging others',
+        details: 'Participate in coding competitions, hackathons, or contribute to open-source projects to apply your skills in real-world scenarios.'
+    }
+];
+
+function initializeMilestones() {
+    milestones.forEach(milestone => {
+        const element = document.getElementById(milestone.id);
+        const info = document.createElement('div');
+        info.className = 'milestone-info';
+        info.innerHTML = `
+            <h3>${milestone.title}</h3>
+            <p>${milestone.description}</p>
+        `;
+        document.querySelector('.roadSection').appendChild(info);
+
+        const updateInfoPosition = () => {
+            const rect = element.getBoundingClientRect();
+            const roadSection = document.querySelector('.roadSection');
+            const roadRect = roadSection.getBoundingClientRect();
+            
+            let left = rect.left + rect.width / 2 - 100 - roadRect.left;
+            let top = rect.top - 100 - roadRect.top;
+
+            left = Math.max(10, Math.min(left, roadRect.width - 210));
+            top = Math.max(10, Math.min(top, roadRect.height - info.offsetHeight - 10));
+
+            info.style.left = `${left}px`;
+            info.style.top = `${top}px`;
+        };
+
+        window.addEventListener('resize', updateInfoPosition);
+
+        let timeout;
+        element.addEventListener('mouseenter', () => {
+            clearTimeout(timeout);
+            updateInfoPosition();
+            info.style.opacity = '1';
+            info.style.transform = 'translateY(0)';
+        });
+
+        element.addEventListener('mouseleave', () => {
+            timeout = setTimeout(() => {
+                info.style.opacity = '0';
+                info.style.transform = 'translateY(10px)';
+            }, 300);
+        });
+
+        element.addEventListener('click', () => {
+            showModal(milestone);
+        });
+    });
+}
+
+function showModal(milestone) {
+    const roadModal = document.getElementById('roadmodal');
+    const roadModalTitle = document.getElementById('road-modalTitle');
+    const roadModalDescription = document.getElementById('road-modalDescription');
+    const roadModalDetails = document.getElementById('road-modalDetails');
+
+    roadModalTitle.textContent = milestone.title;
+    roadModalDescription.textContent = milestone.description;
+    roadModalDetails.textContent = milestone.details;
+    roadModal.style.display = 'block';
+}
+
+const closeBtn = document.querySelector('.close');
+closeBtn.onclick = function() {
+    document.getElementById('roadmodal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('roadmodal')) {
+        document.getElementById('roadmodal').style.display = 'none';
+    }
+}
+
+function animateRoadmap() {
+    const roadSection = document.querySelector('.roadSection');
+    const bigHeading = roadSection.querySelector('.bigHeading');
+    const road = roadSection.querySelector('.road');
+    const milestones = roadSection.querySelectorAll('.milestone');
+
+    bigHeading.classList.add('visible');
+    road.classList.add('visible');
+    milestones.forEach(milestone => milestone.classList.add('visible'));
+}
+
+function checkRoadmapVisibility() {
+    const roadSection = document.querySelector('.roadSection');
+    const rect = roadSection.getBoundingClientRect();
+    const isVisible = (rect.top <= window.innerHeight && rect.bottom >= 0);
+    
+    if (isVisible) {
+        animateRoadmap();
+    } else {
+        // Reset animations when out of view
+        const bigHeading = roadSection.querySelector('.bigHeading');
+        const road = roadSection.querySelector('.road');
+        const milestones = roadSection.querySelectorAll('.milestone');
+
+        bigHeading.classList.remove('visible');
+        road.classList.remove('visible');
+        milestones.forEach(milestone => milestone.classList.remove('visible'));
+    }
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMilestones();
+    checkRoadmapVisibility(); // Check initial visibility
+    window.addEventListener('scroll', checkRoadmapVisibility);
+});
+
+// Animate the big heading
+const bigHeading = document.querySelector('.bigHeading');
+bigHeading.innerHTML = bigHeading.textContent.replace(/\S/g, "<span>$&</span>");
+
+const letters = document.querySelectorAll('.bigHeading span');
+letters.forEach((letter, index) => {
+    letter.style.animationDelay = `${index * 0.1}s`;
+});
