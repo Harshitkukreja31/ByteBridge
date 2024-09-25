@@ -778,3 +778,122 @@ function sortRows(rows, sort, header) {
 }
 
 
+function filterRows(rows, difficulty, header) {
+  const headerParts = header.split(",");
+  const columnIndex = headerParts.indexOf("Difficulty");
+  
+  // Separate the header from the data rows
+  const [headerRow, ...dataRows] = rows;
+  
+  // Filter only the data rows
+  const filteredDataRows = dataRows.filter(
+    (row) => row.split(",")[columnIndex].trim() === difficulty
+  );
+  
+  // Return the header row followed by the filtered data rows
+  return [headerRow, ...filteredDataRows];
+}
+
+//search functionaliy
+document.getElementById("search-button").addEventListener("click", () => {
+  const id = document.getElementById("id-search").value.trim();
+  if (id) {
+    searchByID(id);
+  }
+});
+
+document.getElementById("id-search").addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent the default action to avoid submitting the form
+    const id = document.getElementById("id-search").value.trim();
+    if (id) {
+      searchByID(id);
+    }
+  }
+});
+
+function searchByID(id) {
+  fetch("company_data.json")
+    .then((response) => response.json())
+    .then((data) => {
+      const tableData = {};
+      let foundTitle = "";
+      let foundLink = "";
+      let idFound = false;
+
+      const promises = Object.entries(data).flatMap(([company, durations]) => {
+        return durations.map((duration) => {
+          const csvFile = `data/LeetCode-Questions-CompanyWise/${company}_${duration}.csv`;
+          return fetch(csvFile)
+            .then((response) => response.text())
+            .then((csvText) => {
+              const rows = csvText.split("\n").filter((row) => row.trim());
+              const header = rows.shift().split(",");
+              const idIndex = header.findIndex((col) => col.trim() === "ID");
+              const titleIndex = header.findIndex(
+                (col) => col.trim() === "Title"
+              );
+              const linkIndex = header.findIndex(
+                (col) => col.trim() === "Leetcode Question Link"
+              );
+              const frequencyIndex = header.findIndex(
+                (col) => col.trim() === "Frequency"
+              );
+
+              rows.forEach((row) => {
+                const cells = row.split(",");
+                if (cells[idIndex].trim() === id) {
+                  idFound = true;
+                  foundTitle = cells[titleIndex].trim();
+                  foundLink = cells[linkIndex].trim();
+                  const frequency = parseFloat(cells[frequencyIndex].trim());
+
+                  if (!tableData[company]) {
+                    tableData[company] = {};
+                  }
+                  tableData[company][duration] =
+                    (tableData[company][duration] || 0) + frequency;
+                }
+              });
+            });
+        });
+      });
+
+      Promise.all(promises)
+        .then(() => {
+          if (idFound) {
+            Object.keys(tableData).forEach((company) => {
+              Object.keys(tableData[company]).forEach((duration) => {
+                tableData[company][duration] =
+                  tableData[company][duration].toFixed(2);
+              });
+            });
+            displaySearchResults(tableData, foundTitle, foundLink);
+          } else {
+            return fetch("problem_data.json");
+          }
+        })
+        .then((response) => {
+          if (response) return response.json();
+        })
+        .then((problemData) => {
+          if (problemData) {
+            const problem = problemData[id];
+            if (problem) {
+              const problemNameSlug = problem["Problem Name"]
+                .toLowerCase()
+                .replace(/ /g, "-");
+              const problemLink = `https://leetcode.com/problems/${problemNameSlug}/description/`;
+              displaySearchResults({}, problem["Problem Name"], problemLink);
+            } else {
+              console.log("Problem ID not found in the data.");
+            }
+          }
+        })
+        .catch((error) => console.error("Error in search process:", error));
+    })
+    .catch((error) => console.error("Error loading company data:", error));
+}
+
+
+
