@@ -897,3 +897,295 @@ function searchByID(id) {
 
 
 
+function displaySearchResults(data, title, link) {
+  const tableContainer = document.getElementById("table-container");
+  tableContainer.innerHTML = "";
+
+  // Create a container for all content
+  const contentContainer = createContentContainer();
+
+  // Create a container for title and link
+  const titleLinkContainer = createTitleLinkContainer(title, link);
+
+  // Checkbox logic
+  const checkboxId = parseInt(document.getElementById("id-search").value);
+  const titleCheckbox = setupTitleCheckbox(checkboxId);
+  titleLinkContainer.appendChild(titleCheckbox);
+
+  contentContainer.appendChild(titleLinkContainer);
+
+  if (Object.keys(data).length === 0) {
+    const noDataMsg = createNoDataMessage();
+    contentContainer.appendChild(noDataMsg);
+  } else {
+    const companyCount = createCompanyCountMessage(data);
+    contentContainer.appendChild(companyCount);
+
+    const table = createResultsTable(data);
+    contentContainer.appendChild(table);
+  }
+
+  tableContainer.appendChild(contentContainer);
+  addResponsiveStyles();
+}
+
+function createContentContainer() {
+  const container = document.createElement("div");
+  Object.assign(container.style, {
+    backgroundColor: "white",
+    borderRadius: "12px",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06)",
+    padding: "20px",
+    maxWidth: "800px",
+    margin: "0 auto",
+    width: "95%",
+  });
+  return container;
+}
+
+function createTitleLinkContainer(title, link) {
+  const container = document.createElement("div");
+  Object.assign(container.style, {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "20px",
+    flexWrap: "wrap",
+  });
+
+  const titleElement = document.createElement("h2");
+  titleElement.textContent = title;
+  Object.assign(titleElement.style, {
+    fontSize: "clamp(18px, 4vw, 24px)",
+    margin: "0 10px 0 0",
+    textAlign: "center",
+  });
+
+  const linkElement = createLinkElement(link);
+  container.appendChild(titleElement);
+  container.appendChild(linkElement);
+
+  return container;
+}
+
+function createLinkElement(link) {
+  const linkElement = document.createElement("a");
+  linkElement.setAttribute("href", link);
+  linkElement.target = "_blank";
+  linkElement.style.display = "inline-flex";
+  linkElement.style.alignItems = "center";
+  linkElement.style.textDecoration = "none";
+  linkElement.style.color = "#1a73e8";
+  linkElement.style.marginTop = "5px";
+
+  const leetCodeIcon = new Image();
+  leetCodeIcon.src = "leetcode.svg";
+  leetCodeIcon.alt = "LeetCode";
+  leetCodeIcon.style.width = "24px";
+  leetCodeIcon.style.height = "24px";
+  leetCodeIcon.style.marginRight = "5px";
+
+  linkElement.appendChild(leetCodeIcon);
+  linkElement.appendChild(document.createTextNode("LeetCode"));
+
+  return linkElement;
+}
+
+function setupTitleCheckbox(checkboxId) {
+  const titleCheckbox = document.createElement("input");
+  titleCheckbox.type = "checkbox";
+  titleCheckbox.id = "title-checkbox";
+  titleCheckbox.style.marginRight = "10px";
+  
+  // Use your specific storage key function
+  const storageKey = getUserSpecificStorageKey(`attempt-${checkboxId}`);
+  titleCheckbox.checked = getLocalStorageItem(storageKey);
+
+  titleCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      localStorage.setItem(storageKey, this.checked);
+      const currentDate = formatDate(new Date());
+      localStorage.setItem(getUserSpecificStorageKey(`date-${checkboxId}`), currentDate);
+    } else {
+      localStorage.removeItem(storageKey);
+      localStorage.removeItem(getUserSpecificStorageKey(`date-${checkboxId}`));
+      localStorage.removeItem(getUserSpecificStorageKey(`companies-${checkboxId}`));
+    }
+  });
+
+  return titleCheckbox;
+}
+
+function createNoDataMessage() {
+  const noDataMsg = document.createElement("p");
+  noDataMsg.textContent = "The question was not asked in any company.";
+  noDataMsg.style.textAlign = "center";
+  noDataMsg.style.fontSize = "16px";
+  return noDataMsg;
+}
+
+function createCompanyCountMessage(data) {
+  const companyCount = document.createElement("p");
+  companyCount.textContent = `Number of companies: ${Object.keys(data).length}`;
+  companyCount.style.textAlign = "center";
+  companyCount.style.fontSize = "16px";
+  companyCount.style.marginBottom = "20px";
+  return companyCount;
+}
+
+function createResultsTable(data) {
+  const table = document.createElement("table");
+  table.style.width = "100%";
+  table.style.borderCollapse = "separate";
+  table.style.borderSpacing = "0 10px";
+
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+
+  const companyNameHeader = document.createElement("th");
+  companyNameHeader.style.backgroundColor = "#4a69bd";
+  companyNameHeader.style.color = "white";
+  companyNameHeader.style.padding = "12px 15px";
+  companyNameHeader.style.textAlign = "left";
+  companyNameHeader.textContent = "Company";
+
+  const frequencyHeader = document.createElement("th");
+
+
+  headerRow.appendChild(companyNameHeader);
+  headerRow.appendChild(frequencyHeader);
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  Object.entries(data).forEach(([company, durations], index) => {
+    const row = document.createElement("tr");
+    row.style.backgroundColor = index % 2 === 0 ? "#ffffff" : "#f8f9fa";
+    row.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
+    row.style.transition = "all 0.3s ease";
+
+    const companyNameCell = createCompanyNameCell(company);
+    row.appendChild(companyNameCell);
+
+    const frequencyCell = createFrequencyCell(durations);
+    row.appendChild(frequencyCell);
+    thead.style.display="none";
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+  const companyInfo=document.getElementsByClassName("company-info");
+  companyInfo[0].style.display="none";
+  const prog=document.getElementsByClassName("progress-ring");
+  prog[0].style.display="none";
+  return table;
+}
+
+function createCompanyNameCell(company) {
+  const cell = document.createElement("td");
+  cell.style.padding = "12px 15px";
+  cell.style.borderBottom = "1px solid #e0e0e0";
+  cell.style.display = "flex";
+  cell.style.alignItems = "center";
+  cell.style.flexWrap = "wrap";
+
+  const companyLogo = createCompanyLogo(company);
+  cell.appendChild(companyLogo);
+
+  const companyName = document.createElement("span");
+  companyName.textContent = company[0].toUpperCase() + company.slice(1).toLowerCase();
+  companyName.style.wordBreak = "break-word";
+  cell.appendChild(companyName);
+
+  return cell;
+}
+
+function createCompanyLogo(company) {
+  const logoDiv = document.createElement("div");
+  logoDiv.style.width = "32px";
+  logoDiv.style.height = "32px";
+  logoDiv.style.marginRight = "10px";
+  logoDiv.style.flexShrink = "0";
+  logoDiv.style.borderRadius = "50%";
+  logoDiv.style.display = "flex";
+  logoDiv.style.alignItems = "center";
+  logoDiv.style.justifyContent = "center";
+  logoDiv.style.fontSize = "16px";
+  logoDiv.style.fontWeight = "bold";
+  logoDiv.style.color = "white";
+  logoDiv.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+  logoDiv.textContent = company[0].toUpperCase();
+
+  const img = new Image();
+  img.src = `https://logo.clearbit.com/${company}.com`;
+  img.alt = company;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.borderRadius = "50%";
+  img.style.objectFit = "cover";
+  img.style.backgroundColor = "white";
+
+  img.onload = () => {
+    logoDiv.textContent = '';
+    logoDiv.appendChild(img);
+  };
+
+  return logoDiv;
+}
+
+function createFrequencyCell(durations) {
+  const cell = document.createElement("td");
+  cell.style.padding = "12px 15px";
+  cell.style.borderBottom = "1px solid #e0e0e0";
+  cell.style.display = "flex";
+  cell.style.flexWrap = "wrap";
+  cell.style.gap = "5px";
+
+  Object.entries(durations).forEach(([duration, frequency]) => {
+    const tag = document.createElement("span");
+    tag.textContent = `${Math.ceil(frequency * 100)}% (${duration})`;
+    tag.style.display = "inline-block";
+    tag.style.padding = "4px 8px";
+    tag.style.borderRadius = "12px";
+    tag.style.fontSize = "12px";
+    tag.style.color = "white";
+    tag.style.marginBottom = "5px";
+    tag.style.backgroundColor = getFrequencyColor(frequency);
+    cell.appendChild(tag);
+  });
+
+  return cell;
+}
+
+function getFrequencyColor(frequency) {
+  const freqValue = parseFloat(frequency);
+  if (freqValue >= 0.7) return "#4CAF50";
+  else if (freqValue >= 0.4) return "#FFA500";
+  return "#f44336";
+}
+
+function addResponsiveStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (max-width: 600px) {
+      #table-container table, #table-container tbody, #table-container tr, #table-container td {
+        display: block;
+        width: 100%;
+      }
+      #table-container thead {
+        display: none;
+      }
+      #table-container tr {
+        margin-bottom: 15px;
+      }
+      #table-container td {
+        text-align: left;
+        padding: 12px 15px;
+      }
+      #table-container td:last-child {
+        border-bottom: none;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
