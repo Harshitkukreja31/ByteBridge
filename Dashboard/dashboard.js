@@ -11,6 +11,27 @@ document.addEventListener('DOMContentLoaded', function() {
     //     dropdownMenu.style.display = 'none';
     // });
 });
+function showSidebar(){
+  const sidebar = document.querySelector('.sidebar')
+  sidebar.style.display = 'flex'
+}
+function hideSidebar(){
+  const sidebar = document.querySelector('.sidebar')
+  sidebar.style.display = 'none'
+}
+
+function logout() {
+  // Clear the current user from localStorage
+  localStorage.removeItem('currentUser');
+  
+  // Optionally, clear any other user-specific data
+  // For example, if you have any session-related data:
+  // localStorage.removeItem('userSessionData');
+  
+  // Redirect to the login page or home page
+  window.location.href = "../Landing Page/index.html"; 
+}
+
 
 const companySelect = document.getElementById("company-select");
 const durationSelect = document.getElementById("duration-select");
@@ -1188,4 +1209,41 @@ function addResponsiveStyles() {
   `;
   document.head.appendChild(style);
 }
+
+// Local Storage Helper
+function getLocalStorageItem(key, defaultValue = false) {
+  const item = localStorage.getItem(key);
+  return item ? JSON.parse(item) : defaultValue;
+}
+
+// Clear the table
+function clearUIElements() {
+  
+  document.getElementById("table-container").innerHTML = "";
+  document.getElementById("current-selection").innerText = "";
+  document.getElementById("company-logo").style.display = "none";
+  document.getElementById("id-search").value = "";
+  
+
+  document.getElementById("company-select").selectedIndex = 0;
+  document.getElementById("duration-select").selectedIndex = 0;
+  document.getElementById("sort-select").selectedIndex = 0;
+  document.getElementById("difficulty-filter").selectedIndex = 0;
+
+  progDisplay=false;
+  updateProgressDisplay(checkboxCount, rows.length - 1);
+  progDisplay=true;
+}
+
+// Add the event listener to the clear button
+document
+  .getElementById("clear-button")
+  .addEventListener("click", clearUIElements);
+
+function clearTable() {
+  const tableContainer = document.getElementById("table-container");
+  tableContainer.innerHTML = "";
+}
+
+
 
