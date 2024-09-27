@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <ul class="sidebar">
+          <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960"
+                width="26">
+                <path
+                  d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
+              </svg></a></li>
+          <li><a href="../Landing Page/index.html">Home</a></li>
+          <li><a href="../Dashboard/dashboard.html">Practice</a></li>
+          <li><a href="../newQuestion.html">Submit</a></li>
+          <li><a href="../roadMap.html">DSA Roadmap</a></li>
+          <li><a href="../UserProfile/profile.html">Profile</a></li>
+          <li class="loginbtn"onclick="logout()">Log Out</a></li>
+        </ul>
+        <ul>
+          <li><a href="#"><img src="../Landing Page/logo.png" alt="" class="logo"></a></li>
+          <li class="hideOnMobile"><a href="../Landing Page/index.html">Home</a></li>
+          <li class="hideOnMobile"><a href="../Dashboard/dashboard.html">Practice</a></li>
+          <li class="hideOnMobile"><a href="../newQuestion.html">Submit</a></li>
+          <li class="hideOnMobile"><a href="../roadMap.html">DSA Roadmap</a></li>
+          <li class="hideOnMobile"><a href="../UserProfile/profile.html">Profile</a></li>
+          <li class="hideOnMobile loginbtn" onclick="logout()">Log Out</a></li>
+          <li class="menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26"
+                viewBox="0 96 960 960" width="26">
+                <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+              </svg></a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>User Profile</h1>
+       
+        <div class="grid">
+            <div class="card">
+                <h2>Profile Information</h2>
+                <p id="username" class="mb-2"></p>
+                <p id="joinDate" class="mb-4"></p>
+                <button id="changePasswordBtn" class="button">
+                    Change Password
+                </button>
+            </div>
+           
+            <div class="card">
+                <h2>Statistics</h2>
+                <p id="totalProblems" class="mb-2"></p>
+                <p id="easyProblems" class="mb-2"></p>
+                <p id="mediumProblems" class="mb-2"></p>
+                <p id="hardProblems" class="mb-2"></p>
+            </div>
+        </div>
+       
+        <div class="card mb-8">
+            <h2>Problem Difficulty Distribution</h2>
+            <div class="w-full max-w-2xl mx-auto">
+                <canvas id="difficultyPieChart"></canvas>
+            </div>
+        </div>
+       
+        <div class="card">
+            <h2>Problem Solving Progress</h2>
+            <div class="chart-container">
+                <canvas id="companyBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center items-center w-full"></div>
+        <div id="summaryTable" class="hidden table-container overflow-x-auto">
+          <div id="questionCountBanner" class="question-count-banner"></div>
+          <table class="w-full border-collapse border border-gray-300 mx-auto">
+            <thead>
+              <tr style="background-color: #0F67B1; color: white; border-bottom: 0px;">
+                <th class="border border-gray-300 text-center">Unique ID</th>
+                <th class="border border-gray-300 text-center">
+                  Name of the Problem
+                </th>
+                <th class="border border-gray-300 text-center">Link</th>
+                <th class="border border-gray-300 text-center">Difficulty</th>
+                <th class="border border-gray-300 text-center">Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+    </div>
+   
+    <div id="loadingSpinner" class="hidden">
+        <div class="spinner"></div>
+    </div>
+   
+    <script src="profile.js"></script>
+</body>
+</html>
