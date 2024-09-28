@@ -1,41 +1,36 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const app = express();
 
-const PORT = process.env.PORT || 8070;
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname)));
 
-// Serve static files from specific directories
-app.use("/", express.static(path.join(__dirname, "Landing Page")));
-app.use("/practice", express.static(path.join(__dirname, "Dashboard")));
-app.use("/profile", express.static(path.join(__dirname, "UserProfile")));
-app.use(express.static(path.join(__dirname))); // For files in the root directory
 
-// Define routes
+// Serve index.html for the root route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+    const indexPath = path.join(__dirname, "index.html");
+    
+    fs.access(indexPath, fs.constants.F_OK, (err) => {
+        if (err) {
+            res.status(404).send("Index file not found");
+            return;
+        }
+        
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                res.status(err.status || 500).end();
+            }
+        });
+    });
 });
 
-
-app.get("/profile", (req, res) => {
-  res.sendFile(path.join(__dirname, "UserProfile", "profile.html"));
-});
-app.get("/practice", (req, res) => {
-    res.sendFile(path.join(__dirname, "Dashboard", "dashboard.html"));
-  });
-
-app.get("/contribute", (req, res) => {
-  res.sendFile(path.join(__dirname, "newQuestion.html"));
-});
-app.get("/dsa-roadmap", (req, res) => {
-    res.sendFile(path.join(__dirname, "roadMap.html"));
-});
-
-// Catch-all route for undefined routes
+// Catch-all route for 404 errors
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "Landing Page", "index.html"));
+    res.status(404).send("Not found");
 });
 
-// Start the server
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
