@@ -14,9 +14,10 @@
    - [User Profile](#user-profile)
    - [User Contribute](#user-contribute)
 6. [Tech Stack](#tech-stack)
-7. [Contact & Support](#contact--support)
-10. [Acknowledgements](#acknowledgements)
-11. [FAQs](#faqs)
+7. [Deployment](#deployment)
+8. [Contact & Support](#contact--support)
+9. [Acknowledgements](#acknowledgements)
+10. [FAQs](#faqs)
 
 ## Overview
 
@@ -136,7 +137,11 @@ ByteBridge is built with a powerful yet lightweight tech stack:
 - **Chart.js**: For beautiful, responsive charts
 
 
+## Deployment
 
+ByteBridge is now live and accessible to everyone! You can visit our deployed application at:
+
+[https://byte-bridge-psi.vercel.app/](https://byte-bridge-psi.vercel.app/)
 
 
 ## Contact & Support
