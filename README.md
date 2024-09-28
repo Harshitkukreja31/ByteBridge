@@ -36,7 +36,7 @@ ByteBridge is packed with features to supercharge your DSA learning:
 - Your central hub for navigating the ByteBridge universe
 - Quick access to all sections and latest updates
 
-### Practice Section
+### 💪 Practice Section
 - **Company-specific Preparation**: Tailored problem sets from top tech companies
 - **Progress Tracking**: Monitor your daily achievements and long-term growth
 - **Smart Question Selection**: Choose questions by company, difficulty, or topic
@@ -44,7 +44,7 @@ ByteBridge is packed with features to supercharge your DSA learning:
 - **Frequency Meter**: See how often a question appears in real interviews
 - **Personal Notes**: Attach your thoughts and approaches to each problem
 
-### Roadmap Section
+### 🗺️ Roadmap Section
 - Structured learning paths for DSA mastery
 - From "Array Novice" to "Algorithm Guru" - follow your personalized journey
 
@@ -94,7 +94,7 @@ This flowchart illustrates the intricate web of ByteBridge's functionality. From
 
 4. Start the ByteBridge server:
    ```bash
-   npm start
+   npm run
    ```
 
 5. Open your favorite browser and visit `http://localhost:3000`. Welcome to ByteBridge!
