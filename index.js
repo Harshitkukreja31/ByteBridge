@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname))); // For files in the root director
 
 // Define routes
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "Landing Page", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 

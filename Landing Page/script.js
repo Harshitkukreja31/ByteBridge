@@ -168,7 +168,7 @@ function logout() {
     localStorage.removeItem('currentUser');
     updateAuthButton();
     // Redirect to the login page or home page
-    window.location.href = "../Landing Page/index.html"; 
+    window.location.href = "../index.html"; 
   }
 
 // Load the logged-in user when the page is loaded
