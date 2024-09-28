@@ -50,6 +50,7 @@
       font: inherit;
       font-style: var(--ff-primary);
       overflow-x: hidden;
+      
   }
   /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
   ul[role='list'],
@@ -61,15 +62,17 @@
   html,
   body{
       min-height: 100vh;
+      
   }
   body {
-    
+    /* min-height: 400vh; */
     line-height: 1.5;
+    font-family: 'Be Vietnam Pro',sans-serif;
   }
   
   /* Set shorter line heights on headings and interactive elements */
   h1, h2, h3, h4,
-  button, input, label {
+  input, label {
     line-height: 1.1;
   }
   
@@ -92,7 +95,9 @@
     max-width: 100%;
     display: block;
   }
-  
+  /* button{
+    overflow-y: hidden;
+  } */
   /* Inherit fonts for inputs and buttons */
   
   
@@ -106,7 +111,102 @@
     scroll-margin-block: 5ex;
   }
 
+/* navbar */
 
+.logo{
+    height: 80px;
+  }
+  nav{
+    background-color: white;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+  }
+  nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  nav li{
+    height: 80px;
+  }
+  nav a{
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  .loginbtn{
+  
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  .loginbtn:hover{
+    background-color: #f0f0f0;
+  }
+  nav a:hover{
+    background-color: #f0f0f0;
+  }
+  nav li:first-child{
+    margin-right: auto;
+  }
+  .sidebar{
+    position: fixed;
+    top: 0; 
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    z-index: 10000;
+  }
+  .sidebar li{
+    width: 100%;
+  }
+  .sidebar a{
+    width: 100%;
+  }
+  .menu-button{
+    display: none;
+  }
+  .loginbtn{
+
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  .loginbtn:hover{
+    background-color: #f0f0f0;
+  }
+  @media(max-width: 800px){
+    .hideOnMobile{
+      display: none;
+    }
+    .menu-button{
+      display: block;
+    }
+  }
+  
+  @media(max-width: 400px){
+    .sidebar{
+      width: 100%;
+    }
+  }
 /* hero section */
 
 .hero-section {
@@ -125,6 +225,7 @@
     color: #FFA500;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    overflow-y: hidden;
 }
 
 .hero-subheading {
@@ -230,6 +331,7 @@
     align-items: center;
     gap: 0.5rem;
     transition: all 0.3s ease;
+  
 }
 
 .btn-blue {
@@ -253,6 +355,9 @@
 .btn-red {
     background-color: #dc3545;
     color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-red:hover {
@@ -583,4 +688,108 @@ tr:nth-child(even) {
   .low-frequency {
     background-color: #f44336;
     color: white;
+  }
+
+  .footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 50px 0 20px;
+    font-family: 'Be Vietnam Pro',sans-serif;
+  }
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .footer-section {
+    flex: 1;
+    margin-bottom: 20px;
+    min-width: 200px;
+    padding: 0 15px;
+  }
+  .footer-section h3 {
+    color: #00fff5;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  .footer-section p, .footer-section ul {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .footer-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .footer-section ul li {
+    margin-bottom: 8px;
+  }
+  .footer-section ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-section ul li a:hover {
+    color: #00fff5;
+  }
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  .social-icon {
+    color: #ffffff;
+    font-size: 20px;
+    transition: color 0.3s ease;
+  }
+  .social-icon:hover {
+    color: #00fff5;
+  }
+  .footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 40px;
+    border-top: 1px solid #444;
+  }
+  .footer-bottom p {
+    font-size: 12px;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+  }
+  .contact-form button {
+    background-color: #00fff5;
+    color: #1a1a1a;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .contact-form button:hover {
+    background-color: #00cccc;
+  }
+  @media screen and (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-section {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+      
+    }
+    .social-icons {
+        justify-content: center;
+    }
   }
