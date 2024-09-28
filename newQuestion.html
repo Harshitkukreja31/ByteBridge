@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Interview Experience</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro',sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            margin: -50px auto 50px;
+            position: relative;
+        }
+
+        .form-header {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .hero-title {
+                font-size: 2em;
+            }
+
+            .hero-subtitle {
+                font-size: 1em;
+            }
+
+            .container {
+                padding: 30px;
+                width: 95%;
+                margin-top: -30px;
+            }
+
+            .form-header {
+                font-size: 20px;
+            }
+
+            input,
+            select,
+            .submit-btn {
+                font-size: 16px;
+                margin-top: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .hero-section {
+                padding: 40px 15px;
+            }
+
+            .hero-title {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .form-header {
+                font-size: 18px;
+            }
+
+            input,
+            select,
+            .submit-btn {
+                font-size: 14px;
+            }
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        nav {
+            background-color: white;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 100%;
+        }
+
+        nav ul {
+            width: 100%;
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        nav li {
+            height: 80px;
+        }
+
+        nav a {
+            height: 100%;
+            padding: 0 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            color: black;
+        }
+
+        .loginbtn {
+
+            padding: 0 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            color: black;
+        }
+
+        .loginbtn:hover {
+            background-color: #f0f0f0;
+        }
+
+        nav a:hover {
+            background-color: #f0f0f0;
+        }
+
+        nav li:first-child {
+            margin-right: auto;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            z-index: 10000;
+        }
+
+        .sidebar li {
+            width: 100%;
+        }
+
+        .sidebar a {
+            width: 100%;
+        }
+
+        .menu-button {
+            display: none;
+        }
+
+        .loginbtn {
+
+            padding: 0 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            color: black;
+        }
+
+        .loginbtn:hover {
+            background-color: #f0f0f0;
+        }
+
+        @media(max-width: 800px) {
+            .hideOnMobile {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+        }
+
+        @media(max-width: 400px) {
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        .footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 50px 0 20px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin-bottom: 20px;
+            min-width: 200px;
+            padding: 0 15px;
+        }
+
+        .footer-section h3 {
+            color: #00fff5;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p,
+        .footer-section ul {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00fff5;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            color: #ffffff;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #00fff5;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #444;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .contact-form button {
+            background-color: #00fff5;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background-color: #00cccc;
+        }
+
+        @media screen and (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-section {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 30px;
+
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="sidebar">
+            <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26"
+                        viewBox="0 96 960 960" width="26">
+                        <path
+                            d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
+                    </svg></a></li>
+            <li><a href="../Landing Page/index.html">Home</a></li>
+            <li><a href="../Dashboard/dashboard.html">Practice</a></li>
+            <li><a href="../newQuestion.html">Contribute</a></li>
+            <li><a href="../roadMap.html">DSA Roadmap</a></li>
+            <li><a href="../UserProfile/profile.html">Profile</a></li>
+            <li class="loginbtn" onclick="logout()">Log Out</a></li>
+        </ul>
+        <ul>
+            <li><a href="#"><img src="../Landing Page/logo.png" alt="" class="logo"></a></li>
+            <li class="hideOnMobile"><a href="../Landing Page/index.html">Home</a></li>
+            <li class="hideOnMobile"><a href="../Dashboard/dashboard.html">Practice</a></li>
+            <li class="hideOnMobile"><a href="../newQuestion.html">Contribute</a></li>
+            <li class="hideOnMobile"><a href="../roadMap.html">DSA Roadmap</a></li>
+            <li class="hideOnMobile"><a href="../UserProfile/profile.html">Profile</a></li>
+            <li class="hideOnMobile loginbtn" onclick="logout()">Log Out</a></li>
+            <li class="menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                        height="26" viewBox="0 96 960 960" width="26">
+                        <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+                    </svg></a></li>
+        </ul>
+    </nav>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Empower the Tech Community</h1>
+            <p class="hero-subtitle">Your interview experience can guide millions. Share your journey and help shape the
+                future of tech interviews.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="newEntryForm">
+            <div class="form-header">
+                <span>Share Your Interview Insight</span>
+            </div>
+            <input type="text" id="uniqueId" placeholder="Question ID (if known)" />
+            <select id="companies" multiple="multiple" style="width: 100%;">
+                <option value="None">N/A</option>
+                <option value="Google">Google</option>
+                <option value="Microsoft">Microsoft</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Apple">Apple</option>
+                <option value="Netflix">Netflix</option>
+                <option value="Adobe">Adobe</option>
+                <option value="Salesforce">Salesforce</option>
+                <option value="Oracle">Oracle</option>
+                <option value="Uber">Uber</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Twitter">Twitter</option>
+                <option value="Snapchat">Snapchat</option>
+                <option value="Yahoo">Yahoo</option>
+                <option value="Splinkr">Splinkr</option>
+                <option value="Atlassian">Atlassian</option>
+                <option value="eBay">eBay</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Spotify">Spotify</option>
+                <option value="Airbnb">Airbnb</option>
+                <option value="Dropbox">Dropbox</option>
+                <option value="Intel">Intel</option>
+                <option value="IBM">IBM</option>
+                <option value="Tesla">Tesla</option>
+                <option value="Nvidia">Nvidia</option>
+                <option value="Samsung">Samsung</option>
+                <option value="Qualcomm">Qualcomm</option>
+                <option value="Bloomberg">Bloomberg</option>
+                <option value="Expedia">Expedia</option>
+                <option value="Lyft">Lyft</option>
+                <option value="Yelp">Yelp</option>
+                <option value="Reddit">Reddit</option>
+                <option value="Square">Square</option>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="Goldman Sachs">Goldman Sachs</option>
+                <option value="Morgan Stanley">Morgan Stanley</option>
+                <option value="Cisco">Cisco</option>
+                <option value="Citrix">Citrix</option>
+                <option value="Vmware">Vmware</option>
+                <option value="Shopify">Shopify</option>
+                <option value="Pinterest">Pinterest</option>
+                <option value="Stripe">Stripe</option>
+                <option value="Robinhood">Robinhood</option>
+                <option value="Coinbase">Coinbase</option>
+                <option value="Riot Games">Riot Games</option>
+                <option value="Epic Games">Epic Games</option>
+                <option value="Palantir">Palantir</option>
+                <option value="Nutanix">Nutanix</option>
+                <option value="Slack">Slack</option>
+                <option value="Twitch">Twitch</option>
+                <option value="Fidelity Investments">Fidelity Investments</option>
+                <option value="Schwab">Schwab</option>
+                <option value="American Express">American Express</option>
+                <option value="Capital One">Capital One</option>
+                <option value="J.P. Morgan">J.P. Morgan</option>
+                <option value="BlackRock">BlackRock</option>
+                <option value="The Bank of New York Mellon">The Bank of New York Mellon</option>
+                <option value="State Street Corporation">State Street Corporation</option>
+                <option value="PNC Financial Services">PNC Financial Services</option>
+                <option value="TD Bank">TD Bank</option>
+                <option value="HSBC">HSBC</option>
+                <option value="Barclays">Barclays</option>
+                <option value="Credit Suisse">Credit Suisse</option>
+                <option value="Deutsche Bank">Deutsche Bank</option>
+                <option value="UBS">UBS</option>
+                <option value="Wells Fargo">Wells Fargo</option>
+                <option value="Zillow">Zillow</option>
+                <option value="Wayfair">Wayfair</option>
+                <option value="Akamai">Akamai</option>
+                <option value="MathWorks">MathWorks</option>
+                <option value="Duolingo">Duolingo</option>
+                <option value="Zynga">Zynga</option>
+                <option value="HubSpot">HubSpot</option>
+                <option value="Twilio">Twilio</option>
+                <option value="DocuSign">DocuSign</option>
+                <option value="Etsy">Etsy</option>
+                <option value="Groupon">Groupon</option>
+                <option value="DoorDash">DoorDash</option>
+                <option value="Grubhub">Grubhub</option>
+                <option value="Postmates">Postmates</option>
+                <option value="Instacart">Instacart</option>
+                <option value="Asana">Asana</option>
+                <option value="Blue Apron">Blue Apron</option>
+                <option value="Zoom">Zoom</option>
+                <option value="Hulu">Hulu</option>
+                <option value="Activision Blizzard">Activision Blizzard</option>
+                <option value="Electronic Arts">Electronic Arts</option>
+            </select>
+            <button onclick="submitExperience()" class="submit-btn">Submit Your Experience</button>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>We specialize in comprehensive Data Structures and Algorithms (DSA) tracking and company-specific
+                    preparation. Our platform empowers tech professionals to excel in coding interviews and land their
+                    dream jobs at top companies.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="checkLoginAndRedirect('home')">Home</a></li>
+                    <li><a href="#" onclick="checkLoginAndRedirect('practice')">Practice</a></li>
+                    <li><a href="#" onclick="checkLoginAndRedirect('submit')">Submit</a></li>
+                    <li><a href="#" onclick="checkLoginAndRedirect('dsa-roadmap')">DSA Roadmap</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: harshitkukreja07@gmail.com</p>
+                <p>Phone: (+91) 6239840190</p>
+                <form class="contact-form">
+                    <input type="email" placeholder="Your email" required>
+                    <textarea placeholder="Your message" rows="3" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ByteBridge. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        let selectedCompanies = [];
+
+        $(document).ready(function () {
+            $('#companies').select2({
+                placeholder: "Select companies",
+                allowClear: true
+            });
+
+            $('#companies').on('change', function () {
+                selectedCompanies = $(this).val();
+                console.log("Selected companies: ", selectedCompanies);
+            });
+        });
+
+        function formatDate(date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const yyyy = date.getFullYear();
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function submitExperience() {
+            const uniqueId = document.getElementById("uniqueId").value;
+            const companies = selectedCompanies;
+            const currentDate = formatDate(new Date());
+
+            if (!uniqueId) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Question ID",
+                    text: "If you don't know the Question ID, we'll generate one for you.",
+                    confirmButtonText: "Continue"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        processSubmission(uniqueId || Date.now().toString(), companies, currentDate);
+                    }
+                });
+            } else {
+                processSubmission(uniqueId, companies, currentDate);
+            }
+        }
+
+        function processSubmission(uniqueId, companies, currentDate) {
+            if (!companies || companies.length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Company Selection Required",
+                    text: "Please select at least one company where you encountered this question.",
+                });
+                return;
+            }
+
+            localStorage.setItem(`experience-${uniqueId}`, true);
+            localStorage.setItem(`date-${uniqueId}`, currentDate);
+            localStorage.setItem(`companies-${uniqueId}`, companies.join(", "));
+
+            Swal.fire({
+                title: "Thank You!",
+                text: "Your contribution is invaluable. Together, we're shaping the future of tech interviews.",
+                icon: "success",
+                confirmButtonText: "Continue Empowering"
+            });
+
+            document.getElementById("uniqueId").value = "";
+            $('#companies').val(null).trigger('change');
+        }
+        function showSidebar() {
+            const sidebar = document.querySelector('.sidebar')
+            sidebar.style.display = 'flex'
+        }
+        function hideSidebar() {
+            const sidebar = document.querySelector('.sidebar')
+            sidebar.style.display = 'none'
+        }
+    </script>
+</body>
+
+</html>
