@@ -97,7 +97,7 @@ This flowchart illustrates the intricate web of ByteBridge's functionality. From
    npm run
    ```
 
-5. Open your favorite browser and visit `http://localhost:3000`. Welcome to ByteBridge!
+5. Open your favorite browser and visit `http://localhost:8070`. Welcome to ByteBridge!
 
 ## Usage Guide
 
