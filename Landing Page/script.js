@@ -148,16 +148,16 @@ function redirectToPage(page) {
             window.location.href = '/';
             break;
         case 'practice':
-            window.location.href = '/practice';
+            window.location.href = '../Dashboard/dashboard.html';
             break;
         case 'submit':
-            window.location.href = '/contribute';
+            window.location.href = '../newQuestion.html';
             break;
         case 'dsa-roadmap':
-            window.location.href = '/dsa-roadmap';
+            window.location.href = '../roadMap.html';
             break;
         case 'profile':
-            window.location.href = '/profile';
+            window.location.href = '../UserProfile/profile.html';
             break;
         default:
             window.location.href = '../Dashboard/dashboard.html';
