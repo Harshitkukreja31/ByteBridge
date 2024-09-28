@@ -103,31 +103,99 @@ function login() {
         localStorage.setItem('currentUser', username); // Store current user in localStorage
         window.location.href = '../Dashboard/dashboard.html'; // Redirect to dashboard
         closeModal();
+        updateAuthButton();
     } else {
         alert('Invalid username or password');
     }
+}
+function getUserSpecificStorageKey(username, key) {
+    return `${username}-${key}`;
 }
 
 function signup() {
     const username = document.getElementById('signupUsername').value;
     const password = document.getElementById('signupPassword').value;
     let users = JSON.parse(localStorage.getItem('users')) || {};
+    let currentDate = new Date().toJSON().slice(0, 10);
 
     if (users[username]) {
         alert('Username already exists');
     } else {
         users[username] = password;
         localStorage.setItem('users', JSON.stringify(users));
+        
+        // Store the user's specific join date using the username
+        localStorage.setItem(username+'joinDate', currentDate);
+        console.log(localStorage.getItem(username + 'joinDate'))
         alert('Signup successful! Please login.');
         toggleForm();
     }
 }
+function checkLoginAndRedirect(page) {
+    const loggedInUser = localStorage.getItem('currentUser');
+    if (loggedInUser) {
+        redirectToPage(page);
+    } else {
+        localStorage.setItem('lastAttemptedPage', page);
+        openModal();
+    }
+}
+
+// Function to handle redirection
+function redirectToPage(page) {
+    switch(page) {
+        case 'home':
+            window.location.href = '/';
+            break;
+        case 'practice':
+            window.location.href = '/practice';
+            break;
+        case 'submit':
+            window.location.href = '/contribute';
+            break;
+        case 'dsa-roadmap':
+            window.location.href = '/dsa-roadmap';
+            break;
+        case 'profile':
+            window.location.href = '/profile';
+            break;
+        default:
+            window.location.href = '../Dashboard/dashboard.html';
+    }
+}
+function logout() {
+    // Clear the current user from localStorage
+    localStorage.removeItem('currentUser');
+    updateAuthButton();
+    // Redirect to the login page or home page
+    window.location.href = "../Landing Page/index.html"; 
+  }
 
 // Load the logged-in user when the page is loaded
 window.onload = function () {
     currentUser = localStorage.getItem('currentUser');
+    console.log(currentUser);
+    updateAuthButton();
 };
+// if(currentUser!=null){
+//     const loginbtn = document.getElementsByClassName('loginbtn');
+//     loginbtn.innerHTML="Log Out";
+//     loginbtn.onclick(logout());
+   
+// }
+function updateAuthButton() {
+    console.log(currentUser);
+    const authButtons = document.getElementsByClassName('loginbtn');
+   
+    const buttonConfig = currentUser != null
+        ? { text: "Log Out", action: logout }
+        : { text: "Join Us", action: openModal };
 
+    Array.from(authButtons).forEach(button => {
+        button.textContent = buttonConfig.text;
+        button.onclick = buttonConfig.action;
+    });
+}
 
 
 //section : Road Map
@@ -276,3 +344,7 @@ const letters = document.querySelectorAll('.bigHeading span');
 letters.forEach((letter, index) => {
     letter.style.animationDelay = `${index * 0.1}s`;
 });
+
+
+
+document.addEventListener('load', updateAuthButton);

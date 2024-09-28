@@ -7,31 +7,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ByteBridge</title>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <nav>
     <ul class="sidebar">
-      <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960"
-            width="26">
-            <path
-              d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
+      <li onclick="hideSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26">
+            <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
           </svg></a></li>
-      <li><a href="#">Blog</a></li>
-      <li><a href="#">Products</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Forum</a></li>
-      <li onclick="openModal()" class="loginbtn">Join Us</a></li>
+      <li><a href="#" onclick="checkLoginAndRedirect('home')">Home</a></li>
+      <li><a href="#" onclick="checkLoginAndRedirect('practice')">Practice</a></li>
+      <li><a href="#" onclick="checkLoginAndRedirect('submit')">Contribute</a></li>
+      <li><a href="#" onclick="checkLoginAndRedirect('dsa-roadmap')">DSA Roadmap</a></li>
+      <li id="authButton" onclick="openModal()" class="loginbtn">Join Us</li>
     </ul>
     <ul>
       <li><a href="#"><img src="logo.png" alt="" class="logo"></a></li>
-      <li class="hideOnMobile"><a href="#">Blog</a></li>
-      <li class="hideOnMobile"><a href="#">Products</a></li>
-      <li class="hideOnMobile"><a href="#">About</a></li>
-      <li class="hideOnMobile"><a href="#">Forum</a></li>
-      <li class="hideOnMobile loginbtn" onclick="openModal()">Join Us</a></li>
-      <li class="menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26"
+      <li class="hideOnMobile"><a href="#" onclick="checkLoginAndRedirect('home')">Home</a></li>
+      <li class="hideOnMobile"><a href="#" onclick="checkLoginAndRedirect('practice')">Practice</a></li>
+      <li class="hideOnMobile"><a href="#" onclick="checkLoginAndRedirect('submit')">Contribute</a></li>
+      <li class="hideOnMobile"><a href="#" onclick="checkLoginAndRedirect('dsa-roadmap')">DSA Roadmap</a></li>
+      <li class="hideOnMobile"><a href="#" onclick="checkLoginAndRedirect('profile')">Profile</a></li>
+      <li id="authButton" class="hideOnMobile loginbtn" onclick="openModal()">Join Us</li>
+      <li class="menu-button" onclick="showSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26"
             viewBox="0 96 960 960" width="26">
             <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
           </svg></a></li>
@@ -46,7 +46,7 @@
         <h1>Your first job is just a step away!</h1>
         <p>Practice DSA, keep targeted notes, and revise topics for a strong foundation for problem-solving.</p>
         <!-- <div class="moving-background" id="movingBackground"></div> -->
-        <button class="button-77">Get Started</button>
+        <button class="start" onclick="checkLoginAndRedirect('practice')">Get Started</button>
       </div>
       <div class="code-container">
         <pre><code id="code-display"></code></pre>
@@ -70,11 +70,11 @@
             <span class="challenge-level">Easy</span>
           </div>
           <select class="language-select">
-            <option>Company</option>
-            <option>Justpay</option>
-            <option>Apple</option>
-            <option>Meta</option>
-            <option>Amazon</option>
+            <option onclick="checkLoginAndRedirect('practice')">Company</option>
+            <option onclick="checkLoginAndRedirect('practice')">Justpay</option>
+            <option onclick="checkLoginAndRedirect('practice')">Apple</option>
+            <option onclick="checkLoginAndRedirect('practice')">Meta</option>
+            <option onclick="checkLoginAndRedirect('practice')">Amazon</option>
           </select>
 
           <div class="category">Fundamentals</div>
@@ -91,6 +91,31 @@
     </div>
   </section>
 
+ <!-- login-signup -->
+ <div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <div id="loginForm">
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <div class="toggle">
+        Don't have an account? <a href="#" onclick="toggleForm()">Sign up</a>
+      </div>
+    </div>
+    <div id="signupForm" style="display: none;">
+      <h2>Sign Up</h2>
+      <input type="text" id="signupUsername" placeholder="Username">
+      <input type="password" id="signupPassword" placeholder="Password">
+      <input type="password" id="confirmsignupPassword" placeholder="Password">
+      <button onclick="signup()">Sign Up</button>
+      <div class="toggle">
+        Already have an account? <a href="#" onclick="toggleForm()">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="roadSection">
@@ -103,7 +128,9 @@
       <span> </span>
       <span>B</span><span>r</span><span>i</span><span>d</span><span>g</span><span>e</span>
   </div>
+  
   <h1>ROADMAP</h1>
+
   <svg class="road" viewBox="0 0 1000 200">
       <defs>
           <linearGradient id="road-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -119,7 +146,9 @@
   <div id="milestone2" class="milestone">2</div>
   <div id="milestone3" class="milestone">3</div>
   <div id="milestone4" class="milestone">4</div>
+  <button class="start" onclick="checkLoginAndRedirect('dsa-roadmap')">Follow</button>
 </div>
+
 <div id="roadmodal" class="roadmodal">
   <div class="road-modal-content">
       <span class="close">&times;</span>
@@ -127,7 +156,65 @@
       <p id="road-modalDescription"></p>
       <div id="road-modalDetails"></div>
   </div>
+  
 </div>
+<!-- section-4 -->
+<div class="companySec">
+  <div class="com-heading-container">
+    <h1>From <span class="highlight">LeetCode</span> to <span class="highlight">Offer Letter</span>:<br>Track Your Path to Success</h1>
+  </div>
+  <ul class="circles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+<footer class="footer">
+  <div class="footer-content">
+      <div class="footer-section">
+          <h3>About Us</h3>
+          <p>We specialize in comprehensive Data Structures and Algorithms (DSA) tracking and company-specific preparation. Our platform empowers tech professionals to excel in coding interviews and land their dream jobs at top companies.</p>
+      </div>
+      <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#" onclick="checkLoginAndRedirect('home')">Home</a></li>
+            <li><a href="#" onclick="checkLoginAndRedirect('practice')">Practice</a></li>
+            <li><a href="#" onclick="checkLoginAndRedirect('submit')">Submit</a></li>
+            <li><a href="#" onclick="checkLoginAndRedirect('dsa-roadmap')">DSA Roadmap</a></li>
+          </ul>
+      </div>
+      <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>Email: harshitkukreja07@gmail.com</p>
+          <p>Phone: (+91) 6239840190</p>
+          <form class="contact-form">
+              <input type="email" placeholder="Your email" required>
+              <textarea placeholder="Your message" rows="3" required></textarea>
+              <button type="submit">Send</button>
+          </form>
+      </div>
+      <div class="footer-section">
+          <h3>Follow Us</h3>
+          <div class="social-icons">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+          </div>
+      </div>
+  </div>
+  <div class="footer-bottom">
+      <p>&copy; 2024 ByteBridge. All rights reserved.</p>
+  </div>
+</footer>
 
   <script src="script.js"></script>
 </body>
